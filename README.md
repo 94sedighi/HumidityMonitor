@@ -21,3 +21,31 @@
   The HumidityMonitorApp entry point creates all 4 services, injects them into two ViewModels (DashboardViewModel +
   SettingsViewModel), and passes those to the views via @EnvironmentObject. Combine subscriptions keep everything reactive — when the
    BLE sensor pushes a new value, the gauge updates, the alert system checks thresholds, and a reading gets queued for storage.
+
+
+   Sensors:
+
+  - Xiaomi LYWSD03MMC (~$5-8) — Very cheap. Needs custom firmware (ATC/pvvx) flashed to broadcast standard GATT services. Huge
+  community support.
+
+  Enthusiast / Reliable
+
+  - SensorPush HT1 (~$25) — Dedicated humidity sensor, good accuracy. Uses a proprietary BLE protocol though — would need app
+  modifications.
+  - Inkbird IBS-TH2 (~$15-20) — Temperature + humidity, reasonably standard BLE.
+
+  DIY (Best Compatibility)
+
+  - ESP32 + DHT22/BME280 (~$8-15 total) — This is the guaranteed option. You flash the ESP32 to advertise the exact standard
+  Environmental Sensing Service (0x181A) with the correct characteristics. Full control.
+    - ESP32 dev board: ~$5
+    - BME280 sensor (humidity + temp + pressure): ~$3-5
+    - Tons of Arduino/PlatformIO tutorials for this exact setup
+
+  My Recommendation
+
+  If you want plug-and-play: Xiaomi LYWSD03MMC with https://github.com/atc1441/ATC_MiThermometer — it's cheap and the custom firmware
+   broadcasts standard GATT services that match exactly what the app expects.
+
+  If you want guaranteed compatibility: ESP32 + BME280 — you control the BLE service UUIDs exactly, so it's a perfect match with zero
+   guesswork.
